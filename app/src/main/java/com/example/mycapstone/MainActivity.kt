@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         //ini coba comit
         //coba update laptop wawan
+        //Ashiapppp
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
