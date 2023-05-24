@@ -2,6 +2,7 @@ package com.example.mycapstone
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -20,9 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //ini coba comit
-        //coba update laptop wawan
-        //Ashiapppppp
+        //kamera jadi
 
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -43,9 +42,9 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
 
                 R.id.navigation_home -> {
-                    val fragment = HomeFragment() // Ganti ProfileFragment dengan fragment yang ingin Anda buka
+                    val fragment = HomeFragment()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment) // Ganti R.id.container dengan ID dari container/layout yang akan menampung fragment
+                        .replace(R.id.container, fragment)
                         .commit()
                     true
                 }
@@ -57,16 +56,16 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_history -> {
-                    val fragment = HistoryFragment() // Ganti ProfileFragment dengan fragment yang ingin Anda buka
+                    val fragment = HistoryFragment()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment) // Ganti R.id.container dengan ID dari container/layout yang akan menampung fragment
+                        .replace(R.id.container, fragment)
                         .commit()
                     true
                 }
                 R.id.navigation_akun -> {
-                    val fragment = AkunFragment() // Ganti ProfileFragment dengan fragment yang ingin Anda buka
+                    val fragment = AkunFragment()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment) // Ganti R.id.container dengan ID dari container/layout yang akan menampung fragment
+                        .replace(R.id.container, fragment)
                         .commit()
                     true
                 }
