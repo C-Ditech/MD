@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         //ini coba comit
+        //coba update laptop wawan
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
