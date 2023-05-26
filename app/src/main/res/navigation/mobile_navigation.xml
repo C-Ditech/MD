@@ -15,11 +15,11 @@
         android:id="@+id/navigation_history"
         android:name="com.example.mycapstone.ui.history.HistoryFragment"
         android:label="@string/title_history"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_history" />
 
     <fragment
         android:id="@+id/navigation_akun"
         android:name="com.example.mycapstone.ui.Akun.AkunFragment"
         android:label="@string/title_akun"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_akun" />
 </navigation>
