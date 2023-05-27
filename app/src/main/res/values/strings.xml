@@ -4,4 +4,17 @@
     <string name="title_camera">Camera</string>
     <string name="title_history">History</string>
     <string name="title_akun">Akun</string>
+
+    //aset string halaman home
+    <string name="greetings">Hi Username</string>
+    <string name="empty">masih kosong</string>
+    <string name="cek">Cek Penyakit</string>
+    <string name="deteksi">Deteksi penyakit ayam melalui gambar feses</string>
+    <string name="kategori">Kategori penyakit :</string>
+    <string name="jenis">Coccidiosis,New Castle Disease Salmonella</string>
+    <string name="artikel">Artikel</string>
+    <string name="artikel1">Ketahui lebih lanjut mengenai Coccidiosis</string>
+    <string name="artikel2">Ketahui lebih lanjut New Castle Disease</string>
+    <string name="artikel3">Ketahui lebih lanjut mengenai Salmonella</string>
+
 </resources>
