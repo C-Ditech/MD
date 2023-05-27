@@ -11,14 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="248dp">
 
-
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="189dp"
             android:src="@drawable/myayam" />
 
         <androidx.cardview.widget.CardView
-            android:layout_width="173dp"
+            android:layout_width="191dp"
             android:layout_height="72dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="160dp"
@@ -28,43 +27,45 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/user" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:paddingStart="10dp"
+                        android:text="Hi Username"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/user" />
+                    android:paddingTop="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:paddingStart="10dp"
-                    android:text="Hi Username"
-                    android:textStyle="bold"/>
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="19dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/clock" />
 
-            <LinearLayout
-                android:paddingTop="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="19dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/clock" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:paddingStart="10dp"
-                    android:text="Sabtu,18 Mei 2023"
-                    />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:paddingStart="10dp"
+                        android:text="masih kosong" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -102,22 +103,26 @@
             <TextView
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:text="Deteksi penyakit ayam melalui gambar feses"
                 android:textColor="@color/black"
                 android:textSize="13dp"
-                android:text="Deteksi penyakit ayam melalui gambar feses" />
+                tools:ignore="TextSizeCheck" />
 
             <TextView
-                android:layout_marginTop="8dp"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:textSize="11dp"
+                android:layout_marginTop="8dp"
                 android:text="Kategori penyakit :"
-                android:textStyle="bold"/>
+                android:textSize="11dp"
+                android:textStyle="bold"
+                tools:ignore="TextSizeCheck" />
+
             <TextView
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:text="Coccidiosis,New Castle Disease Salmonella"
                 android:textSize="11dp"
-                android:text="Coccidiosis,New Castle Disease Salmonella" />
+                tools:ignore="TextSizeCheck" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -141,28 +146,95 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="107dp"
-            android:layout_height="212dp"
+            android:layout_height="196dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/pnykit1" />
+
+                <TextView
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="Ketahui lebih lanjut mengenai Coccidiosis"
+                    android:textColor="@color/black"
+                    android:textSize="12dp"
+                    tools:ignore="TextSizeCheck" />
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="107dp"
-            android:layout_height="212dp"
+            android:layout_height="196dp"
             android:layout_margin="15dp"
             app:cardCornerRadius="15dp"
             android:layout_gravity="center_horizontal"
             app:cardElevation="8dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/pnykit2" />
+
+                <TextView
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="Ketahui lebih lanjut mengenai Coccidiosis"
+                    android:textColor="@color/black"
+                    android:textSize="12dp"
+                    tools:ignore="TextSizeCheck" />
+            </LinearLayout>
+
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="107dp"
-            android:layout_height="212dp"
+            android:layout_height="196dp"
             android:layout_gravity="right"
             app:cardCornerRadius="15dp"
             app:cardElevation="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/pnykit3" />
+
+                <TextView
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="Ketahui lebih lanjut mengenai Coccidiosis"
+                    android:textColor="@color/black"
+                    android:textSize="12dp"
+                    tools:ignore="TextSizeCheck" />
+            </LinearLayout>
+
 
         </androidx.cardview.widget.CardView>
 
