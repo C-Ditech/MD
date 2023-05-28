@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.mycapstone.R
 import com.example.mycapstone.databinding.ActivityUploadBinding
+import com.example.mycapstone.ui.hasil.HasilActivity
 import java.io.File
 import java.util.*
 
@@ -44,6 +45,20 @@ class UploadActivity : AppCompatActivity() {
         binding.btnCamera.setOnClickListener { startCameraX() }
         binding.btnImport.setOnClickListener {
             startGallery() }
+        binding.btnUpload.setOnClickListener {
+            val intent = Intent(this, HasilActivity::class.java)
+
+            val data1 = binding.inputNama.text.toString()
+            intent.putExtra("key1", data1)
+
+
+            val data2 = binding.inputTanggal.text.toString()
+            intent.putExtra("key2", data2)
+
+            val data3 = binding.inputDeskripsi.text.toString()
+            intent.putExtra("key3", data3)
+            startActivity(intent)
+        }
     }
 
     private fun showDatePicker() {
