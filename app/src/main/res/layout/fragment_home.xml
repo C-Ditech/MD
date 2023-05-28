@@ -81,6 +81,7 @@
         android:layout_marginStart="20dp"/>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cekpenyakit"
         android:layout_width="352dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -140,7 +141,6 @@
         android:layout_height="241dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:layout_marginTop="4dp"
         android:orientation="horizontal"
         android:paddingTop="8dp">
 

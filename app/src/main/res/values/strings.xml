@@ -17,4 +17,7 @@
     <string name="artikel2">Ketahui lebih lanjut New Castle Disease</string>
     <string name="artikel3">Ketahui lebih lanjut mengenai Salmonella</string>
 
+    //aset string halaman upload
+    <string name="deny">Tidak mendapatkan izin</string>
+
 </resources>

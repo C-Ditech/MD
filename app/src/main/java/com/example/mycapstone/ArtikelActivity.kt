@@ -18,6 +18,8 @@ class ArtikelActivity : AppCompatActivity() {
         binding = ActivityArtikelBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+
         binding.webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 isLoading(true)

@@ -1,22 +1,31 @@
 package com.example.mycapstone
 
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.mycapstone.databinding.ActivityMainBinding
+import com.example.mycapstone.databinding.ActivityUploadBinding
 import com.example.mycapstone.ui.Akun.AkunFragment
 import com.example.mycapstone.ui.history.HistoryFragment
 import com.example.mycapstone.ui.home.HomeFragment
+import com.example.mycapstone.ui.upload.CameraActivity
+import com.example.mycapstone.ui.upload.UploadActivity
+import com.example.mycapstone.ui.upload.UploadActivity.Companion.CAMERA_X_RESULT
+import com.example.mycapstone.ui.upload.rotateFile
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var bindingUploadActivity: ActivityUploadBinding
+    private var getFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        bindingUploadActivity = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.hide()
@@ -50,8 +60,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_camera -> {
-                    val intent = Intent(this, CameraActivity::class.java)
-                    startActivity(intent)
+                    startCameraX()
                     true
                 }
 
@@ -71,6 +80,35 @@ class MainActivity : AppCompatActivity() {
                 }
                 // Fragmen lainnya
                 else -> false
+            }
+        }
+    }
+
+    private fun startCameraX() {
+        val intent = Intent(this, CameraActivity::class.java)
+        launcherIntentCameraX.launch(intent)
+    }
+
+    private val launcherIntentCameraX = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == CAMERA_X_RESULT) {
+            val myFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.data?.getSerializableExtra("picture", File::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                it.data?.getSerializableExtra("picture")
+            } as? File
+
+            val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
+            getFile = myFile
+
+            myFile?.let { file ->
+                rotateFile(file, isBackCamera)
+                bindingUploadActivity.imgPrev.setImageBitmap(BitmapFactory.decodeFile(file.path))
+                val uploadIntent = Intent(this, UploadActivity::class.java)
+                uploadIntent.putExtra("file", file)
+                startActivity(uploadIntent)
             }
         }
     }

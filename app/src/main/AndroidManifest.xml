@@ -2,7 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,10 +18,17 @@
         android:theme="@style/Theme.Mycapstone"
         tools:targetApi="31">
         <activity
-            android:name=".ArtikelActivity"
-            android:exported="false" />
+            android:name=".ui.upload.UploadActivity"
+            android:exported="false"
+            android:label="@string/cek"
+            android:parentActivityName=".MainActivity"/>
         <activity
-            android:name=".CameraActivity"
+            android:name=".ArtikelActivity"
+            android:exported="false"
+            android:label="@string/artikel"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ui.upload.CameraActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
