@@ -5,6 +5,35 @@
     <string name="title_history">History</string>
     <string name="title_akun">Akun</string>
 
+    //aset string halaman login dan register
+    <string name="welcome">Selamat Datang</string>
+    <string name="pleaseLogin">Mohon masukkan email dan
+kata sandi anda</string>
+    <string name="register">Buat Akun Baru</string>
+    <string name="email">Email</string>
+    <string name="pass">Password</string>
+    <string name="confirmpass">Konfirmasi Password</string>
+    <string name="daftar">Daftar</string>
+    <string name="masuk">Masuk</string>
+    <string name="invalid_email">Email Salah</string>
+    <string name="input_email">Masukkan Email</string>
+    <string name="input_name">Masukkan Nama</string>
+    <string name="login">Sudah punya akun</string>
+    <string name="input_pass">Mohon Isi Password</string>
+    <string name="pass_length">Minimal 8 Karakter</string>
+    <string name="account_created">Akun Berhasil Dibuat</string>
+    <string name="email_exist">Email Telah Digunakan</string>
+    <string name="timeout">Waktu Habis!</string>
+    <string name="error_message">Error :</string>
+    <string name="error_desc">Masukkan Data</string>
+    <string name="pass_salah">Password Tidak Cocok</string>
+    <string name="success_login">Berhasil Login</string>
+    <string name="unauthorized">Email Atau Password Anda Salah</string>
+    <string name="see_password">Tampilkan Password</string>
+    <string name="input_benar">Mohon Masukkan Data Dengan Benar</string>
+    <string name="ok">OK</string>
+    <string name="logout">Logout</string>
+
     //aset string halaman home
     <string name="greetings">Hi Username</string>
     <string name="empty">masih kosong</string>
