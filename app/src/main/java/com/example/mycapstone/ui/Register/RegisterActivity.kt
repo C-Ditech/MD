@@ -4,10 +4,14 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mycapstone.MainActivity
 import com.example.mycapstone.databinding.ActivityRegisterBinding
 import com.example.mycapstone.ui.Login.LoginActivity
 
@@ -23,6 +27,7 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
         playanimate()
+        setupInput()
         binding.seePassword.setOnClickListener {
             if (binding.seePassword.isChecked) {
                 binding.inputPassword.transformationMethod =
@@ -36,7 +41,14 @@ class RegisterActivity : AppCompatActivity() {
                     PasswordTransformationMethod.getInstance()
             }
         }
+
+        binding.registerButton.setOnClickListener {
+            Toast.makeText(this, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 
     private fun playanimate() {
         val photo = ObjectAnimator.ofFloat(binding.imgLogin, View.ALPHA, 1f).setDuration(1000)
@@ -63,5 +75,32 @@ class RegisterActivity : AppCompatActivity() {
             )
             start()
         }
+    }
+
+    private fun setupInput(){val loginTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            val isNameEmpty = binding.inputName.text.toString().trim().isEmpty()
+            val isEmailEmpty = binding.inputEmail.text.toString().trim().isEmpty()
+            val isPasswordEmpty = binding.inputPassword.text.toString().trim().isEmpty()
+            val isPasswordValid = binding.inputPassword.text.toString().length >= 8
+            val isConfirmEmpty = binding.confirmPassword.text.toString().trim().isEmpty()
+            val isPasswordMatching = binding.inputPassword.text.toString() == binding.confirmPassword.text.toString()
+            binding.registerButton.isEnabled = !isNameEmpty && !isEmailEmpty && !isPasswordEmpty && isPasswordValid && !isConfirmEmpty && isPasswordMatching
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
+        }
+    }
+        binding.inputName.addTextChangedListener(loginTextWatcher)
+        binding.inputEmail.addTextChangedListener(loginTextWatcher)
+        binding.inputPassword.addTextChangedListener(loginTextWatcher)
+        binding.confirmPassword.addTextChangedListener(loginTextWatcher)
+
     }
 }

@@ -19,6 +19,9 @@
         android:theme="@style/Theme.Mycapstone"
         tools:targetApi="31">
         <activity
+            android:name=".ui.Login.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
@@ -41,7 +44,7 @@
             android:name=".ui.upload.CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.Login.LoginActivity"
+            android:name=".SplashScreen"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>

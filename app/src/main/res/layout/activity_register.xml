@@ -19,7 +19,6 @@
             android:layout_marginTop="100dp"
             android:alpha="0"
             android:src="@drawable/logo" />
-
         <TextView
             android:id="@+id/welcome"
             android:layout_width="wrap_content"
@@ -27,9 +26,10 @@
             android:layout_marginTop="20dp"
             android:alpha="0"
             android:text="@string/register"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold" />
+
 
         <com.example.mycapstone.Custom.CustomUsername
             android:id="@+id/inputName"
@@ -46,7 +46,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="16dp"
             android:elevation="4dp"
-            android:textColor="@color/teal_700"
+            android:textColor="@color/black"
             android:textSize="12dp" />
 
         <com.example.mycapstone.Custom.CustomMail
@@ -58,12 +58,11 @@
             android:background="@drawable/textbar"
             android:drawablePadding="5dp"
             android:hint="@string/email"
-            android:importantForAutofill="no"
             android:inputType="textEmailAddress"
             android:paddingStart="10dp"
             android:paddingEnd="16dp"
-            android:textColor="@color/teal_700"
-            android:textSize="8dp" />
+            android:textColor="@color/black"
+            android:textSize="12dp"/>
 
         <com.example.mycapstone.Custom.CustomPassword
             android:id="@+id/inputPassword"
@@ -74,11 +73,14 @@
             android:background="@drawable/textbar"
             android:drawablePadding="5dp"
             android:hint="@string/pass"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
             android:paddingStart="10dp"
             android:paddingEnd="16dp"
-            android:textColor="@color/teal_700"
-            android:textSize="12dp" />
+            android:textColor="@color/black"
+            android:textSize="12dp"
+            />
 
         <com.example.mycapstone.Custom.CustomPassword
             android:id="@+id/confirmPassword"
@@ -88,12 +90,15 @@
             android:alpha="0"
             android:background="@drawable/textbar"
             android:drawablePadding="5dp"
-            android:hint="@string/confirmpass"
+            android:hint="@string/pass"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
             android:paddingStart="10dp"
             android:paddingEnd="16dp"
-            android:textColor="@color/teal_700"
-            android:textSize="12dp" />
+            android:textColor="@color/black"
+            android:textSize="12dp"
+            />
 
         <CheckBox
             android:id="@+id/seePassword"

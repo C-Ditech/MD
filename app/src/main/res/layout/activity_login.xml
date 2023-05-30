@@ -56,7 +56,7 @@
             android:paddingEnd="16dp"
             android:textColor="@color/black"
             android:textSize="12dp"
-            android:textStyle="bold"/>
+            />
 
         <com.example.mycapstone.Custom.CustomPassword
             android:id="@+id/inputPassword"
@@ -74,7 +74,7 @@
             android:paddingEnd="16dp"
             android:textColor="@color/black"
             android:textSize="12dp"
-            android:textStyle="bold"/>
+            />
 
         <CheckBox
             android:id="@+id/seePassword"
@@ -92,9 +92,13 @@
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:text="@string/masuk"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            android:textStyle="bold"
             android:alpha="0"
-            android:background="@drawable/button_corner_radius"
-            android:enabled="false" />
+            android:enabled="false"
+            android:background="@drawable/button_corner_radius"/>
 
         <TextView
             android:id="@+id/textRegister"
