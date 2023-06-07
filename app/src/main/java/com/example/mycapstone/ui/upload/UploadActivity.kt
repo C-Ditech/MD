@@ -1,6 +1,7 @@
 package com.example.mycapstone.ui.upload
 
 import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -16,6 +18,8 @@ import androidx.core.content.ContextCompat
 import com.example.mycapstone.R
 import com.example.mycapstone.databinding.ActivityUploadBinding
 import com.example.mycapstone.ui.hasil.HasilActivity
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
 import java.util.*
 
@@ -23,6 +27,8 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var getIMG: File
     private lateinit var binding : ActivityUploadBinding
     private var getFile: File? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -31,13 +37,7 @@ class UploadActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
 
-
-        val extras = intent.extras
-        if (extras != null) {
-            getIMG = extras.getSerializable("file") as File
-            binding.imgPrev.setImageBitmap(BitmapFactory.decodeFile(getIMG.path))
-
-        }
+        hasilCamera()
 
         binding.inputTanggal.setOnClickListener {
             showDatePicker()
@@ -91,7 +91,8 @@ class UploadActivity : AppCompatActivity() {
 
     private fun startCameraX() {
         val intent = Intent(this, CameraActivity::class.java)
-        launcherIntentCameraX.launch(intent)
+        startActivity(intent)
+//        launcherIntentCameraX.launch(intent)
     }
 
     private fun startGallery() {
@@ -140,38 +141,49 @@ class UploadActivity : AppCompatActivity() {
         launcherIntentGallery.launch(chooser)
     }
 
+
+    private fun launchImageCrop(uri: Uri){
+        CropImage.activity(uri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setCropShape(CropImageView.CropShape.RECTANGLE) // default is rectangle
+            .start(this)
+    }
+
     private val launcherIntentGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val selectedImg = result.data?.data as Uri
             selectedImg.let { uri ->
-                val myFile = uriToFile(uri, this@UploadActivity)
+                launchImageCrop(uri)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                val croppedUri = result.uri
+                val myFile = uriToFile(croppedUri, this@UploadActivity)
                 getFile = myFile
-                binding.imgPrev.setImageURI(uri)
+                binding.imgPrev.setImageURI(croppedUri)
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+                Toast.makeText(this,"eror saat memilih gambar",Toast.LENGTH_SHORT).show()
             }
         }
     }
 
 
-    private val launcherIntentCameraX = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        if (it.resultCode == CAMERA_X_RESULT) {
-            val myFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                it.data?.getSerializableExtra("picture", File::class.java)
-            } else {
-                @Suppress("DEPRECATION")
-                it.data?.getSerializableExtra("picture")
-            } as? File
+    private fun hasilCamera(){
+        // Dapatkan Uri gambar hasil crop dari Intent
+        val croppedImageUri = intent.getParcelableExtra<Uri>("croppedImageUri")
 
-            val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
-            getFile = myFile
-
-            myFile?.let { file ->
-                rotateFile(file, isBackCamera)
-                binding.imgPrev.setImageBitmap(BitmapFactory.decodeFile(file.path))
-            }
-        }
+        // Tampilkan gambar hasil crop di ImageView
+        binding.imgPrev.setImageURI(croppedImageUri)
     }
+
+
 }

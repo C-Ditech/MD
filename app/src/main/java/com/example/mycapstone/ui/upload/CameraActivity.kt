@@ -2,6 +2,7 @@ package com.example.mycapstone.ui.upload
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,14 +16,19 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.example.mycapstone.R
 import com.example.mycapstone.databinding.ActivityCameraBinding
-import java.nio.file.Files.createFile
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
+
 
 class CameraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var imageCapture: ImageCapture? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +59,8 @@ class CameraActivity : AppCompatActivity() {
         startCamera()
     }
 
+
+
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
@@ -72,18 +80,41 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val intent = Intent()
-                    intent.putExtra("picture", photoFile)
-                    intent.putExtra(
-                        "isBackCamera",
-                        cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
-                    )
-                    setResult(UploadActivity.CAMERA_X_RESULT, intent)
-                    finish()
+                    cropImage(photoFile.toUri()) // Panggil fungsi cropImage dengan Uri gambar
                 }
             }
         )
     }
+
+    private fun cropImage(uri: Uri) {
+        CropImage.activity(uri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setCropShape(CropImageView.CropShape.RECTANGLE)
+            .start(this)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                val croppedUri = result.uri
+                // Kirim Uri hasil crop ke activity lain
+                val intent = Intent(this, UploadActivity::class.java)
+                intent.putExtra("croppedImageUri", croppedUri)
+                startActivity(intent)
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+                // Handle error
+                Toast.makeText(this, "Gagal memotong gambar.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+
+
 
     private fun startCamera() {
 
