@@ -23,7 +23,7 @@
             android:name=".ui.Login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false" />
         <activity
             android:name=".ui.Register.RegisterActivity"
@@ -35,12 +35,12 @@
             android:name=".ui.upload.UploadActivity"
             android:exported="false"
             android:label="@string/cek"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ArtikelActivity"
             android:exported="false"
             android:label="@string/artikel"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.upload.CameraActivity"
             android:exported="false" />

@@ -2,6 +2,7 @@ package com.example.mycapstone.ui.Register
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -10,13 +11,22 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mycapstone.MainActivity
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
+import com.example.mycapstone.*
 import com.example.mycapstone.databinding.ActivityRegisterBinding
 import com.example.mycapstone.ui.Login.LoginActivity
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
+    private lateinit var registerViewModel: RegisterViewModel
+    private var cekmypass : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -28,6 +38,8 @@ class RegisterActivity : AppCompatActivity() {
         }
         playanimate()
         setupInput()
+        clickButton()
+        setupViewModel()
         binding.seePassword.setOnClickListener {
             if (binding.seePassword.isChecked) {
                 binding.inputPassword.transformationMethod =
@@ -42,11 +54,21 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        binding.registerButton.setOnClickListener {
-            Toast.makeText(this, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+    }
+
+    private fun setupViewModel(){
+        registerViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(UserPreference.getInstance(dataStore))
+        )[RegisterViewModel::class.java]
+
+        registerViewModel.message.observe(this) {
+            chekEmailReady(it, registerViewModel.isError)
         }
+
+        registerViewModel.isLoading.observe(this, {
+            isLoading(it)
+        })
     }
 
 
@@ -103,4 +125,154 @@ class RegisterActivity : AppCompatActivity() {
         binding.confirmPassword.addTextChangedListener(loginTextWatcher)
 
     }
+
+    private fun clickButton() {
+        val name = binding.inputName.text.toString()
+        val email = binding.inputEmail.text.toString()
+        val password = binding.inputPassword.text.toString()
+
+        binding.inputPassword.setOnFocusChangeListener { v, focused ->
+            if (v != null) {
+                if (!focused) {
+                    checkPass()
+                }
+            }
+        }
+        binding.confirmPassword.setOnFocusChangeListener { v, focused ->
+            if (v != null) {
+                if (!focused) {
+                    checkPass()
+                }
+            }
+        }
+
+        binding.registerButton.setOnClickListener {
+            binding.apply {
+                inputName.clearFocus()
+                inputEmail.clearFocus()
+                inputPassword.clearFocus()
+                confirmPassword.clearFocus()
+
+            }
+
+            if (isDataValid()) {
+                registerViewModel.saveUser(UserModel(name, email, password, false))
+                uploadData()
+            }
+            else{
+                erorDialog()
+            }
+
+
+        }
+    }
+
+    private fun isDataValid(): Boolean {
+        return binding.inputName.isNameValid &&
+                binding.inputEmail.isEmailValid &&
+                binding.inputPassword.isPassValid &&
+                cekmypass
+
+    }
+
+
+    private fun uploadData() {
+        binding.apply {
+            registerViewModel.postDataRegister(
+                inputName.text.toString(),
+                inputEmail.text.toString(),
+                inputPassword.text.toString()
+            )
+        }
+
+    }
+
+    private fun checkPass() {
+        if (binding.inputPassword.text.toString().trim() != binding.confirmPassword.text.toString().trim()) {
+            binding.confirmPassword.error = resources.getString(R.string.pass_salah)
+            cekmypass = false
+        } else {
+            binding.confirmPassword.error = null
+            cekmypass = true
+        }
+    }
+
+
+
+
+    private fun chekEmailReady(msg: String, isError: Boolean) {
+        if (!isError) {
+            createdDialog()
+
+        } else {
+            when (msg) {
+                "Bad Request" -> {
+                    emailExist()
+                    binding.inputEmail.apply {
+                        setText("")
+                        requestFocus()
+                    }
+                }
+                "timeout" -> {
+                    Toast.makeText(this, getString(R.string.timeout), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(this, "${getString(R.string.error_message)} $msg", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
+
+    private fun erorDialog(){
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setMessage(R.string.input_benar)
+
+        alertDialogBuilder.setPositiveButton(R.string.OK) { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+
+    private fun emailExist(){
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setMessage(R.string.Email_invalid)
+
+        alertDialogBuilder.setPositiveButton(R.string.OK) { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+    private fun createdDialog(){
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setMessage(R.string.acc_created)
+
+        alertDialogBuilder.setPositiveButton(R.string.OK) { dialog, which ->
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+
+    private fun isLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
+    }
+
+
+
 }

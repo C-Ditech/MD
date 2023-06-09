@@ -2,6 +2,7 @@ package com.example.mycapstone.ui.Login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -10,13 +11,22 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mycapstone.MainActivity
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
+import com.example.mycapstone.*
 import com.example.mycapstone.databinding.ActivityLoginBinding
 import com.example.mycapstone.ui.Register.RegisterActivity
+import com.example.mycapstone.ui.main.MainActivity
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var user: UserModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -33,15 +43,123 @@ class LoginActivity : AppCompatActivity() {
         }
         playanimate()
         setupInput()
+        setupViewModel()
+        clickButton()
         binding.textRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
 
+
+    }
+
+    private fun setupViewModel() {
+        loginViewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(UserPreference.getInstance(dataStore))
+        )[LoginViewModel::class.java]
+
+        loginViewModel.getUser().observe(this) { user ->
+            this.user = user
+        }
+
+        loginViewModel.message.observe(this) {
+            chekDatavalid(it, loginViewModel.isError)
+        }
+
+        loginViewModel.isLoading.observe(this) {
+            isLoading(it)
+        }
+    }
+
+    private fun clickButton() {
         binding.loginButton.setOnClickListener {
-            Toast.makeText(this, "Berhasil Login", Toast.LENGTH_SHORT).show()
+            binding.apply {
+                inputEmail.clearFocus()
+                inputPassword.clearFocus()
+            }
+
+            if (isDataValid()) {
+                loginViewModel.login()
+                uploadData()
+            }
+            else{
+                erorDialog()
+            }
+
+
+        }
+    }
+
+    private fun isDataValid(): Boolean {
+        return binding.inputEmail.isEmailValid &&
+                binding.inputPassword.isPassValid
+
+    }
+
+
+    private fun uploadData() {
+        binding.apply {
+            loginViewModel.PostLoginData(
+                inputEmail.text.toString(),
+                inputPassword.text.toString()
+            )
+        }
+    }
+
+
+
+    private fun erorDialog(){
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setMessage(R.string.input_benar)
+
+        alertDialogBuilder.setPositiveButton(R.string.OK) { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+    private fun chekDatavalid(msg: String, isError: Boolean) {
+        if (!isError) {
+            Toast.makeText(this,"Berhasil Login",Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+
+        } else {
+            when (msg) {
+                "Unauthorized" -> {
+                    invalidData()
+                }
+                "timeout" -> {
+                    Toast.makeText(this, getString(R.string.timeout), Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(this, "${getString(R.string.error_message)} $msg", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun invalidData(){
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setMessage(R.string.unauthorized)
+
+        alertDialogBuilder.setPositiveButton(R.string.OK) { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+
+    private fun isLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 

@@ -58,4 +58,10 @@ kata sandi anda</string>
     <string name="inputdesc">Masukkan deskripsi</string>
     <string name="save">Simpan</string>
 
+
+    <string name="acc_created">Akun berhasil dibuat</string>
+    <string name="OK">OK</string>
+    <string name="Email_invalid">Email sudah digunakan</string>
+    <string name="responEror">Gagal Memuat</string>
+
 </resources>
