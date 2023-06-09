@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         bindingUploadActivity = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)

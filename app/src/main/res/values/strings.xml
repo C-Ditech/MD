@@ -32,7 +32,7 @@ kata sandi anda</string>
     <string name="see_password">Tampilkan Password</string>
     <string name="input_benar">Mohon Masukkan Data Dengan Benar</string>
     <string name="ok">OK</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Keluar</string>
 
     //aset string halaman home
     <string name="greetings">Hi Username</string>

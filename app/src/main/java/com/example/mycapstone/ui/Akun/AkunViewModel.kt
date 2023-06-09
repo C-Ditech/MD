@@ -1,13 +1,21 @@
 package com.example.mycapstone.ui.Akun
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.example.mycapstone.UserPreference
+import kotlinx.coroutines.launch
 
-class AkunViewModel : ViewModel() {
+
+
+class AkunViewModel( private val pref: UserPreference) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "Akun"
+        value = "History"
     }
     val text: LiveData<String> = _text
+
+    fun logout() {
+        viewModelScope.launch {
+            pref.logout()
+        }
+    }
 }

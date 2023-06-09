@@ -1,21 +1,31 @@
 package com.example.mycapstone.ui.Akun
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.mycapstone.UserPreference
+import com.example.mycapstone.ViewModelFactory
 import com.example.mycapstone.databinding.FragmentAkunBinding
+import com.example.mycapstone.databinding.FragmentHistoryBinding
+import com.example.mycapstone.ui.history.HistoryViewModel
 
-
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class AkunFragment : Fragment() {
 
     private var _binding: FragmentAkunBinding? = null
+    private lateinit var viewModel: AkunViewModel
+    private lateinit var userPreference: UserPreference
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -23,18 +33,23 @@ class AkunFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(AkunViewModel::class.java)
-
         _binding = FragmentAkunBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        // Inisialisasi UserPreference
+        userPreference = UserPreference.getInstance(requireContext().dataStore)
+
+        // Inisialisasi AkunViewModel dengan UserPreference
+        viewModel = ViewModelProvider(this, ViewModelFactory(userPreference)).get(AkunViewModel::class.java)
+
+        //logoutbutton
+        binding.logoutButton.setOnClickListener({
+            viewModel.logout()
+        })
+
         return root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
