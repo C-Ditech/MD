@@ -44,6 +44,44 @@ class UserPreference  private constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    suspend fun saveUserID(username: UserID){
+        dataStore.edit { preference ->
+            preference[NAME_KEY] = username.name
+        }
+    }
+
+    suspend fun saveUserEmail(username: UserEmail){
+        dataStore.edit { preference ->
+            preference[EMAIL_KEY] = username.email
+        }
+    }
+    fun getUserEmail(): Flow<UserEmail> {
+        return dataStore.data.map { preference ->
+            UserEmail(
+                preference[EMAIL_KEY] ?: "",
+                preference[PASSWORD_KEY] ?: ""
+
+            )
+        }
+    }
+    fun getUserID(): Flow<UserID> {
+        return dataStore.data.map { preference ->
+            UserID(
+                preference[NAME_KEY] ?: ""
+            )
+        }
+    }
+
+    fun getUserToken(): Flow<UserToken> {
+        return dataStore.data.map { preference ->
+            UserToken(
+                preference[TOKEN_KEY] ?: ""
+            )
+        }
+    }
+
+
+
     suspend fun logout() {
         dataStore.edit { preferences ->
             preferences.clear()

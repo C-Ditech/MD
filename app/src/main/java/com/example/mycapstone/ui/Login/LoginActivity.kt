@@ -61,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.getUser().observe(this) { user ->
             this.user = user
+            println("ini $user")
         }
 
         loginViewModel.message.observe(this) {

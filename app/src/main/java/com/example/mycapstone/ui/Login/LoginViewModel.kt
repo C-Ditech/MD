@@ -2,9 +2,7 @@ package com.example.mycapstone.ui.Login
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.mycapstone.UserModel
-import com.example.mycapstone.UserPreference
-import com.example.mycapstone.UserToken
+import com.example.mycapstone.*
 import com.example.mycapstone.api.ApiConfig
 import com.example.mycapstone.api.LoginResponse
 import kotlinx.coroutines.launch
@@ -34,7 +32,9 @@ class LoginViewModel (private val pref: UserPreference) : ViewModel(){
                 if (response.isSuccessful) {
                     if (responseBody!= null && !responseBody.error){
                         val token = responseBody.loginResult.token
+                        val name = responseBody.loginResult.name
                         saveUserData(UserToken(token))
+                        saveUsername(UserID(name))
                     }
                     isError = false
                     Log.e("loginResponse", "onResponse: ${response.message()}")
@@ -55,8 +55,11 @@ class LoginViewModel (private val pref: UserPreference) : ViewModel(){
     fun PostLoginData(email: String, password: String) {
         viewModelScope.launch {
             LoginData(email, password)
+            EmailData(email,password)
         }
     }
+
+
 
 
     fun getUser(): LiveData<UserModel> {
@@ -72,6 +75,22 @@ class LoginViewModel (private val pref: UserPreference) : ViewModel(){
     fun saveUserData(userData: UserToken){
         viewModelScope.launch {
             pref.saveUserToken(userData)
+        }
+    }
+
+    fun saveUsername(userData: UserID){
+        viewModelScope.launch {
+            pref.saveUserID(userData)
+        }
+    }
+
+    fun EmailData(email:String, password:String){
+        val userEmail = UserEmail(email, password)
+        saveEmail(userEmail)
+    }
+    fun saveEmail(userData: UserEmail){
+        viewModelScope.launch {
+            pref.saveUserEmail(userData)
         }
     }
 

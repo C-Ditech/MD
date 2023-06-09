@@ -5,17 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.mycapstone.UserPreference
-import com.example.mycapstone.ViewModelFactory
+import com.example.mycapstone.*
 import com.example.mycapstone.databinding.FragmentAkunBinding
-import com.example.mycapstone.databinding.FragmentHistoryBinding
-import com.example.mycapstone.ui.history.HistoryViewModel
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class AkunFragment : Fragment() {
@@ -23,6 +19,7 @@ class AkunFragment : Fragment() {
     private var _binding: FragmentAkunBinding? = null
     private lateinit var viewModel: AkunViewModel
     private lateinit var userPreference: UserPreference
+    private lateinit var user: UserID
 
 
 
@@ -46,6 +43,27 @@ class AkunFragment : Fragment() {
         binding.logoutButton.setOnClickListener({
             viewModel.logout()
         })
+
+
+        viewModel.getUserData().observe(viewLifecycleOwner) { userData ->
+            val tokken = userData.token
+            println("ini ada token sih : $tokken")
+        }
+
+        viewModel.getUserID().observe(viewLifecycleOwner) { userData ->
+            val username = userData.name
+            println("ini ada name sih : $username")
+            binding.textUsername.text = username
+        }
+
+        viewModel.getEmail().observe(viewLifecycleOwner) { userData ->
+            val email = userData.email
+            println("ini ada email sih : $email")
+            binding.textEmail.text = email
+        }
+
+
+
 
         return root
     }

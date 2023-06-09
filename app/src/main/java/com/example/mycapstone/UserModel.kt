@@ -7,6 +7,14 @@ data class UserModel(
     val isLogin: Boolean
 )
 
+data class UserID(
+    val name: String
+)
+
+data class UserEmail(
+    val email: String,
+    val password: String,
+)
 data class UserToken (
     val token: String
 )
