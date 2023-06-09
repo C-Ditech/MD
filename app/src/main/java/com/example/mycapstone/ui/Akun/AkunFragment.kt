@@ -19,9 +19,6 @@ class AkunFragment : Fragment() {
     private var _binding: FragmentAkunBinding? = null
     private lateinit var viewModel: AkunViewModel
     private lateinit var userPreference: UserPreference
-    private lateinit var user: UserID
-
-
 
     private val binding get() = _binding!!
 
@@ -61,8 +58,6 @@ class AkunFragment : Fragment() {
             println("ini ada email sih : $email")
             binding.textEmail.text = email
         }
-
-
 
 
         return root

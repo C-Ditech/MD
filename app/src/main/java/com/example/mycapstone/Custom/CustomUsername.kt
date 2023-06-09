@@ -33,6 +33,7 @@ class CustomUsername : AppCompatEditText, View.OnTouchListener {
     private fun init() {
         IconName = ContextCompat.getDrawable(context, R.drawable.usernamelogo) as Drawable
         onShowVisibilityIcon(IconName)
+
     }
 
     private fun onShowVisibilityIcon(icon: Drawable) {

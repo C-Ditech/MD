@@ -8,9 +8,7 @@ import kotlinx.coroutines.launch
 
 class AkunViewModel( private val pref: UserPreference) : ViewModel() {
 
-    fun getUser(): LiveData<UserModel> {
-        return pref.getUser().asLiveData()
-    }
+
 
     fun getUserData(): LiveData<UserToken> {
         return pref.getUserToken().asLiveData()

@@ -3,11 +3,18 @@ package com.example.mycapstone.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import com.example.mycapstone.UserID
+import com.example.mycapstone.UserPreference
+import com.example.mycapstone.UserToken
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val pref: UserPreference) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Home"
+    fun getUserData(): LiveData<UserToken> {
+        return pref.getUserToken().asLiveData()
     }
-    val text: LiveData<String> = _text
+
+    fun getUserID(): LiveData<UserID> {
+        return pref.getUserID().asLiveData()
+    }
 }

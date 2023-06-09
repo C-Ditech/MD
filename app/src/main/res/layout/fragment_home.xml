@@ -21,6 +21,7 @@
             android:layout_height="72dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="160dp"
+            android:padding="10dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="8dp">
 
@@ -28,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="20dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -41,10 +42,12 @@
                         android:src="@drawable/user" />
 
                     <TextView
+                        android:id="@+id/greetings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:paddingStart="10dp"
+                        android:textColor="@color/black"
                         android:text="@string/greetings"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -64,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:paddingStart="10dp"
+                        android:paddingStart="12dp"
                         android:text="@string/empty" />
                 </LinearLayout>
 

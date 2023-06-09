@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mycapstone.ui.Akun.AkunViewModel
 import com.example.mycapstone.ui.Login.LoginViewModel
 import com.example.mycapstone.ui.Register.RegisterViewModel
+import com.example.mycapstone.ui.history.HistoryViewModel
+import com.example.mycapstone.ui.home.HomeViewModel
 import com.example.mycapstone.ui.main.MainViewModel
 
 class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.NewInstanceFactory() {
@@ -23,6 +25,9 @@ class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.New
             }
             modelClass.isAssignableFrom(AkunViewModel::class.java)-> {
                 AkunViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(HomeViewModel::class.java)-> {
+                HomeViewModel(pref) as T
             }
 
 //            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {

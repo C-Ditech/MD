@@ -1,25 +1,32 @@
 package com.example.mycapstone.ui.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.mycapstone.ArtikelActivity
+import com.example.mycapstone.UserPreference
+import com.example.mycapstone.ViewModelFactory
 import com.example.mycapstone.databinding.FragmentHomeBinding
+
 import com.example.mycapstone.ui.upload.UploadActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
+    private lateinit var viewModel: HomeViewModel
+    private lateinit var userPreference: UserPreference
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -27,12 +34,18 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        userPreference = UserPreference.getInstance(requireContext().dataStore)
+        viewModel = ViewModelProvider(this, ViewModelFactory(userPreference)).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        viewModel.getUserID().observe(viewLifecycleOwner) { userData ->
+            val username = userData.name
+            println("ini ada name sih : $username")
+            binding.greetings.text = "Hi $username"
+        }
 
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault())
