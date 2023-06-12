@@ -1,18 +1,14 @@
 package com.example.mycapstone.ui.upload
 
 import android.Manifest
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -26,12 +22,8 @@ import java.io.File
 import java.util.*
 
 class UploadActivity : AppCompatActivity() {
-    private lateinit var getIMG: File
     private lateinit var binding : ActivityUploadBinding
     private var getFile: File? = null
-
-    private var isImageChanged = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
