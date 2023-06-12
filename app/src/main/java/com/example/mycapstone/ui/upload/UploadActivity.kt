@@ -10,6 +10,8 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,6 +30,8 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var binding : ActivityUploadBinding
     private var getFile: File? = null
 
+    private var isImageChanged = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +42,15 @@ class UploadActivity : AppCompatActivity() {
 
 
         hasilCamera()
+        setupInput()
 
         binding.inputTanggal.setOnClickListener {
             showDatePicker()
         }
-        binding.btnCamera.setOnClickListener { startCameraX() }
+
+
+        binding.btnCamera.setOnClickListener {
+            startCameraX() }
         binding.btnImport.setOnClickListener {
             startGallery() }
         binding.btnUpload.setOnClickListener {
@@ -59,6 +67,25 @@ class UploadActivity : AppCompatActivity() {
             intent.putExtra("key3", data3)
             startActivity(intent)
         }
+    }
+
+    private fun setupInput(){val loginTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            val isNameEmpty = binding.inputNama.text.toString().trim().isEmpty()
+            binding.btnUpload.isEnabled = !isNameEmpty
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
+        }
+    }
+        binding.inputNama.addTextChangedListener(loginTextWatcher)
+
     }
 
     private fun showDatePicker() {

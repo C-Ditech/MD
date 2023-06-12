@@ -12,6 +12,8 @@ class HasilActivity : AppCompatActivity() {
         binding = ActivityHasilBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+
         val intent = intent
         val data1 = intent.getStringExtra("key1")
         val data2 = intent.getStringExtra("key2")
