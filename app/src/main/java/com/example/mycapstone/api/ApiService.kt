@@ -20,11 +20,14 @@ interface ApiService {
         @Field("password") password: String
     ): Call<LoginResponse>
 
+//    @Multipart
+//    @POST("predict_image")
+//    fun cekpenyakit(
+//        @Part uploaded_file: MultipartBody.Part
+//    ): Call<HasilResponse>
+
     @Multipart
     @POST("predict_image")
-    fun cekpenyakit(
-        @Part file: MultipartBody.Part
-    ): Call<HasilResponse>
-
+    fun cekpenyakit(@Part uploaded_file: MultipartBody.Part): Call<HasilResponse>
 
 }

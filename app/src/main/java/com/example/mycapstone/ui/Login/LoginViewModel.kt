@@ -36,6 +36,9 @@ class LoginViewModel (private val pref: UserPreference) : ViewModel(){
                         val name = responseBody.loginResult.name
 
                         Log.d(ContentValues.TAG,"ini hasilnya" + responseBody?.loginResult)
+
+                        println("Token: $token")
+                        println("Nama: $name")
                         saveUserData(UserToken(token))
                         saveUsername(UserID(name))
                     }

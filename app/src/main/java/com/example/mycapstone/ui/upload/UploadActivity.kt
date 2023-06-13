@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -54,6 +55,8 @@ class UploadActivity : AppCompatActivity() {
             startGallery() }
         binding.btnUpload.setOnClickListener {
             postPenyakit()
+
+            println("ini haruse $getFile")
 //            val intent = Intent(this, HasilActivity::class.java)
 //
 //            val data1 = binding.inputNama.text.toString()
@@ -76,7 +79,7 @@ class UploadActivity : AppCompatActivity() {
             val file = reduceImage(getFile as File)
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                "photo",
+                "uploaded_file",
                 file.name,
                 requestImageFile
             )
@@ -119,7 +122,7 @@ class UploadActivity : AppCompatActivity() {
     private fun startCameraX() {
         val intent = Intent(this, CameraActivity::class.java)
         startActivity(intent)
-//        launcherIntentCameraX.launch(intent)
+
     }
 
     private fun startGallery() {
@@ -169,13 +172,6 @@ class UploadActivity : AppCompatActivity() {
     }
 
 
-//    private fun launchImageCrop(uri: Uri){
-//        CropImage.activity(uri)
-//            .setGuidelines(CropImageView.Guidelines.ON)
-//            .setCropShape(CropImageView.CropShape.RECTANGLE) // default is rectangle
-//            .start(this)
-//    }
-
     private val launcherIntentGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -189,26 +185,30 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            val result = CropImage.getActivityResult(data)
-            if (resultCode == RESULT_OK) {
-                val croppedUri = result.uri
-                val myFile = uriToFile(croppedUri, this@UploadActivity)
-                getFile = myFile
-                binding.imgPrev.setImageURI(croppedUri)
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                val error = result.error
-                Toast.makeText(this,"eror saat memilih gambar",Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            val result = CropImage.getActivityResult(data)
+//            if (resultCode == RESULT_OK) {
+//                val croppedUri = result.uri
+//                val myFile = uriToFile(croppedUri, this@UploadActivity)
+//                Log.d("ActivityResult", "myFile: $myFile")
+//                getFile = myFile
+//                binding.imgPrev.setImageURI(croppedUri)
+//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//                val error = result.error
+//                Toast.makeText(this,"eror saat memilih gambar",Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 
     private fun hasilCamera(){
         // Dapatkan Uri gambar hasil crop dari Intent
         val croppedImageUri = intent.getParcelableExtra<Uri>("croppedImageUri")
+
+        val myFile = croppedImageUri?.let { uriToFile(it, this@UploadActivity) }
+        Log.d("ActivityResult", "myFile: $myFile")
+        getFile = myFile
 
         // Tampilkan gambar hasil crop di ImageView
         binding.imgPrev.setImageURI(croppedImageUri)
