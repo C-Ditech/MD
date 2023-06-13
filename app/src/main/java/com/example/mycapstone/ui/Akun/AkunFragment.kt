@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -37,9 +38,9 @@ class AkunFragment : Fragment() {
         viewModel = ViewModelProvider(this, ViewModelFactory(userPreference)).get(AkunViewModel::class.java)
 
         //logoutbutton
-        binding.logoutButton.setOnClickListener({
-            viewModel.logout()
-        })
+        binding.logoutButton.setOnClickListener {
+            showLogoutConfirmationDialog()
+        }
 
 
         viewModel.getUserData().observe(viewLifecycleOwner) { userData ->
@@ -67,5 +68,17 @@ class AkunFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showLogoutConfirmationDialog() {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Logout")
+            .setMessage("Apakah Anda yakin ingin logout?")
+            .setPositiveButton("Ya") { _, _ ->
+                viewModel.logout()
+            }
+            .setNegativeButton("Batal", null)
+            .create()
+        dialog.show()
     }
 }

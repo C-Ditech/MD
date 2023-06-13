@@ -172,6 +172,7 @@ class UploadActivity : AppCompatActivity() {
     }
 
 
+
     private val launcherIntentGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
