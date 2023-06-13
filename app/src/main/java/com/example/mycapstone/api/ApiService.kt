@@ -25,4 +25,6 @@ interface ApiService {
     fun cekpenyakit(
         @Part file: MultipartBody.Part
     ): Call<HasilResponse>
+
+
 }

@@ -23,28 +23,22 @@ class UploadViewModel : ViewModel() {
         val service = ApiConfig.getApiService2().cekpenyakit(imageMultipart)
         service.enqueue(object : Callback<HasilResponse> {
             override fun onResponse(call: Call<HasilResponse>, response: Response<HasilResponse>) {
-//                _isLoading.value = false
-                val responseBody = response.body()
                 if (response.isSuccessful) {
-                    if (responseBody!= null ){
-//                        val token = responseBody.loginResult.token
-//                        saveUserData(UserToken(token))
+                    val responseBody = response.body()
+                    if (responseBody != null && !responseBody.error) {
                         val penyakit = responseBody.Result.penyakit
                         val akurasi = responseBody.Result.akurasi
 
                         println("Penyakit: $penyakit")
                         println("Akurasi: $akurasi")
+                    } else {
+                        println("Response unsuccessful: Error response from the server")
                     }
-//                    isError = false
-                    Log.e("loginResponse", "onResponse: ${response.message()}")
-//                    _message.value = responseBody?.message.toString()
-//                    _login.value = response.body()
                 } else {
-//                    isError = true
-//                    _message.value = response.message()
-                    println("Response unsuccessful")
+                    println("Response unsuccessful: ${response.code()} ${response.message()}")
                 }
             }
+
 
             override fun onFailure(call: Call<HasilResponse>, t: Throwable) {
 //                _isLoading.value = false
