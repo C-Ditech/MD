@@ -21,12 +21,21 @@ data class LoginResponse(
 )
 
 
-
 data class LoginResult(
     val name: String,
     val userId: String,
     val token: String
 )
 
+data class HasilResponse(
+    val error: Boolean,
+    val message: String,
+    val Result: Result
+)
+
+data class Result(
+    val penyakit: String,
+    val akurasi: Double
+)
 
 

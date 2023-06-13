@@ -1,5 +1,6 @@
 package com.example.mycapstone.ui.Login
 
+import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.mycapstone.*
@@ -33,6 +34,8 @@ class LoginViewModel (private val pref: UserPreference) : ViewModel(){
                     if (responseBody!= null && !responseBody.error){
                         val token = responseBody.loginResult.token
                         val name = responseBody.loginResult.name
+
+                        Log.d(ContentValues.TAG,"ini hasilnya" + responseBody?.loginResult)
                         saveUserData(UserToken(token))
                         saveUsername(UserID(name))
                     }

@@ -13,17 +13,24 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.mycapstone.R
 import com.example.mycapstone.databinding.ActivityUploadBinding
+import com.example.mycapstone.ui.Login.LoginViewModel
 import com.example.mycapstone.ui.hasil.HasilActivity
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.util.*
 
 class UploadActivity : AppCompatActivity() {
     private lateinit var binding : ActivityUploadBinding
     private var getFile: File? = null
+    private lateinit var uploadViewModel: UploadViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +38,10 @@ class UploadActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar!!.setDisplayShowHomeEnabled(true)
+        uploadViewModel = ViewModelProvider(this).get(UploadViewModel::class.java)
 
 
         hasilCamera()
-        setupInput()
 
         binding.inputTanggal.setOnClickListener {
             showDatePicker()
@@ -46,39 +53,40 @@ class UploadActivity : AppCompatActivity() {
         binding.btnImport.setOnClickListener {
             startGallery() }
         binding.btnUpload.setOnClickListener {
-            val intent = Intent(this, HasilActivity::class.java)
-
-            val data1 = binding.inputNama.text.toString()
-            intent.putExtra("key1", data1)
-
-
-            val data2 = binding.inputTanggal.text.toString()
-            intent.putExtra("key2", data2)
-
-            val data3 = binding.inputDeskripsi.text.toString()
-            intent.putExtra("key3", data3)
-            startActivity(intent)
+            postPenyakit()
+//            val intent = Intent(this, HasilActivity::class.java)
+//
+//            val data1 = binding.inputNama.text.toString()
+//            intent.putExtra("key1", data1)
+//
+//
+//            val data2 = binding.inputTanggal.text.toString()
+//            intent.putExtra("key2", data2)
+//
+//            val data3 = binding.inputDeskripsi.text.toString()
+//            intent.putExtra("key3", data3)
+//            startActivity(intent)
         }
     }
 
-    private fun setupInput(){val loginTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-        }
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    private fun postPenyakit(){
+        if (getFile != null ){
+            val file = reduceImage(getFile as File)
+            val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "photo",
+                file.name,
+                requestImageFile
+            )
+                uploadViewModel.cekpenyakit(imageMultipart)
 
-            val isNameEmpty = binding.inputNama.text.toString().trim().isEmpty()
-            binding.btnUpload.isEnabled = !isNameEmpty
-        }
-
-        override fun afterTextChanged(s: Editable?) {
-
+        } else {
+            Toast.makeText(this@UploadActivity, getString(R.string.input_benar), Toast.LENGTH_SHORT).show()
         }
     }
-        binding.inputNama.addTextChangedListener(loginTextWatcher)
 
-    }
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
@@ -161,12 +169,12 @@ class UploadActivity : AppCompatActivity() {
     }
 
 
-    private fun launchImageCrop(uri: Uri){
-        CropImage.activity(uri)
-            .setGuidelines(CropImageView.Guidelines.ON)
-            .setCropShape(CropImageView.CropShape.RECTANGLE) // default is rectangle
-            .start(this)
-    }
+//    private fun launchImageCrop(uri: Uri){
+//        CropImage.activity(uri)
+//            .setGuidelines(CropImageView.Guidelines.ON)
+//            .setCropShape(CropImageView.CropShape.RECTANGLE) // default is rectangle
+//            .start(this)
+//    }
 
     private val launcherIntentGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -174,7 +182,9 @@ class UploadActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val selectedImg = result.data?.data as Uri
             selectedImg.let { uri ->
-                launchImageCrop(uri)
+                val myFile = uriToFile(uri, this@UploadActivity)
+                getFile = myFile
+                binding.imgPrev.setImageURI(uri)
             }
         }
     }
