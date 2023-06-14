@@ -6,25 +6,21 @@ import kotlinx.parcelize.Parcelize
 
 data class RegisterResponse(
 
-    @field:SerializedName("error")
-    val error: Boolean,
-
-    @field:SerializedName("message")
-    val message: String
+    val email: Boolean,
+    val name: String,
+    val password: String
 )
 
 data class LoginResponse(
+    val token: String,
+    val user: LoginResult
 
-    val loginResult: LoginResult,
-    val error: Boolean,
-    val message: String
 )
 
 
 data class LoginResult(
     val name: String,
-    val userId: String,
-    val token: String
+    val email: String,
 )
 
 data class HasilResponse(

@@ -24,7 +24,7 @@ kata sandi anda</string>
     <string name="account_created">Akun Berhasil Dibuat</string>
     <string name="email_exist">Email Telah Digunakan</string>
     <string name="timeout">Waktu Habis!</string>
-    <string name="error_message">Error :</string>
+    <string name="error_message">Email Telah Digunakan</string>
     <string name="error_desc">Masukkan Data</string>
     <string name="pass_salah">Password Tidak Cocok</string>
     <string name="success_login">Berhasil Login</string>
@@ -38,6 +38,7 @@ kata sandi anda</string>
     <string name="greetings">Hi Username</string>
     <string name="empty">masih kosong</string>
     <string name="cek">Cek Penyakit</string>
+    <string name="hasil">Hasil</string>
     <string name="deteksi">Deteksi penyakit ayam melalui gambar feses</string>
     <string name="kategori">Kategori penyakit :</string>
     <string name="jenis">Coccidiosis,New Castle Disease Salmonella</string>
@@ -57,6 +58,7 @@ kata sandi anda</string>
     <string name="inputTanggal">Masukkan tanggal</string>
     <string name="inputdesc">Masukkan deskripsi</string>
     <string name="save">Simpan</string>
+    <string name="uploadscs">Berhasil</string>
 
 
     <string name="acc_created">Akun berhasil dibuat</string>

@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface ApiService {
     @FormUrlEncoded
-    @POST("register")
+    @POST("sign-up")
     fun uploadRegister(
         @Field("name") name: String,
         @Field("email") email: String,
@@ -14,17 +14,11 @@ interface ApiService {
     ): Call<RegisterResponse>
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("sign-in")
     fun uploadDataLogin(
         @Field("email") email: String,
         @Field("password") password: String
     ): Call<LoginResponse>
-
-//    @Multipart
-//    @POST("predict_image")
-//    fun cekpenyakit(
-//        @Part uploaded_file: MultipartBody.Part
-//    ): Call<HasilResponse>
 
     @Multipart
     @POST("predict_image")

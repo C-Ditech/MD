@@ -31,11 +31,11 @@ class LoginViewModel (private val pref: UserPreference) : ViewModel(){
                 _isLoading.value = false
                 val responseBody = response.body()
                 if (response.isSuccessful) {
-                    if (responseBody!= null && !responseBody.error){
-                        val token = responseBody.loginResult.token
-                        val name = responseBody.loginResult.name
+                    if (responseBody!= null){
+                        val token = responseBody.token
+                        val name = responseBody.user.name
 
-                        Log.d(ContentValues.TAG,"ini hasilnya" + responseBody?.loginResult)
+                        Log.d(ContentValues.TAG,"ini hasilnya" + responseBody?.user)
 
                         println("Token: $token")
                         println("Nama: $name")
@@ -44,7 +44,7 @@ class LoginViewModel (private val pref: UserPreference) : ViewModel(){
                     }
                     isError = false
                     Log.e("loginResponse", "onResponse: ${response.message()}")
-                    _message.value = responseBody?.message.toString()
+                    _message.value = responseBody?.token.toString()
                     _login.value = response.body()
                 } else {
                     isError = true

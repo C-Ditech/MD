@@ -2,6 +2,8 @@ package com.example.mycapstone.ui.upload
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +23,7 @@ import com.example.mycapstone.R
 import com.example.mycapstone.databinding.ActivityCameraBinding
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import java.io.FileOutputStream
 
 
 class CameraActivity : AppCompatActivity() {
@@ -80,11 +83,13 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    cropImage(photoFile.toUri()) // Panggil fungsi cropImage dengan Uri gambar
+                    cropImage(photoFile.toUri())
                 }
             }
         )
     }
+
+
 
     private fun cropImage(uri: Uri) {
         CropImage.activity(uri)

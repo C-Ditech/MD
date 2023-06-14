@@ -137,7 +137,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, getString(R.string.timeout), Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    Toast.makeText(this, "${getString(R.string.error_message)} $msg", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, (R.string.unauthorized), Toast.LENGTH_SHORT).show()
                 }
             }
         }

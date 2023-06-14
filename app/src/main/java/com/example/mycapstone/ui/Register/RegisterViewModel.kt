@@ -38,7 +38,7 @@ class RegisterViewModel (private val pref: UserPreference)   : ViewModel() {
                 if (response.isSuccessful) {
                     isError = false
                     Log.e("regisResponse", "onResponse: ${response.message()}")
-                    _message.value = responseBody?.message.toString()
+                    _message.value = responseBody?.email.toString()
                     _regis.value = response.body()
                 } else {
                     isError = true

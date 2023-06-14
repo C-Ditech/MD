@@ -4,12 +4,16 @@ import android.Manifest
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -25,7 +29,9 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
 class UploadActivity : AppCompatActivity() {
@@ -54,24 +60,66 @@ class UploadActivity : AppCompatActivity() {
         binding.btnImport.setOnClickListener {
             startGallery() }
         binding.btnUpload.setOnClickListener {
-            postPenyakit()
+            if (binding.imgPrev.drawable !=null){
+                postPenyakit()
+            }else{
+                Toast.makeText(this,"Masukkan gambar",Toast.LENGTH_SHORT).show()
+            }
 
-            println("ini haruse $getFile")
-//            val intent = Intent(this, HasilActivity::class.java)
-//
-//            val data1 = binding.inputNama.text.toString()
-//            intent.putExtra("key1", data1)
-//
-//
-//            val data2 = binding.inputTanggal.text.toString()
-//            intent.putExtra("key2", data2)
-//
-//            val data3 = binding.inputDeskripsi.text.toString()
-//            intent.putExtra("key3", data3)
-//            startActivity(intent)
+        }
+
+
+        uploadViewModel.isLoading.observe(this) {
+            isLoading(it)
+        }
+
+        uploadViewModel.isError.observe(this) { isError ->
+            chekDatavalid(isError)
         }
     }
 
+
+    private fun chekDatavalid( isError: Boolean) {
+        if (!isError) {
+            Toast.makeText(this,getString(R.string.uploadscs),Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(this, HasilActivity::class.java)
+            val drawable = binding.imgPrev.drawable
+            val originalBitmap = (drawable as BitmapDrawable).bitmap
+
+            val file = saveBitmapToFile(originalBitmap)
+            val reducedFile = reduceImage(file) // Set the desired maxParcelSize value
+            intent.putExtra("img", reducedFile)
+
+            val data1 = binding.inputNama.text.toString()
+            intent.putExtra("key1", data1)
+
+
+            val data2 = binding.inputTanggal.text.toString()
+            intent.putExtra("key2", data2)
+
+            val data3 = binding.inputDeskripsi.text.toString()
+            intent.putExtra("key3", data3)
+            startActivity(intent)
+
+
+            uploadViewModel.disease.observe(this) { datapenyakit ->
+                intent.putExtra("EXTRA_DISEASE", datapenyakit)
+                println("cek apakah penyakit : $datapenyakit")
+                startActivity(intent)
+            }
+
+            uploadViewModel.accuracy.observe(this) { dataakurasi ->
+                intent.putExtra("EXTRA_ACCURACY", dataakurasi)
+                println("cek apakah akuirasi : $dataakurasi")
+                startActivity(intent)
+            }
+
+
+        } else {
+            Toast.makeText(this, "Error response from the server", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
     private fun postPenyakit(){
@@ -83,12 +131,23 @@ class UploadActivity : AppCompatActivity() {
                 file.name,
                 requestImageFile
             )
-                uploadViewModel.cekpenyakit(imageMultipart)
+            uploadViewModel.cekpenyakit(imageMultipart)
 
         } else {
             Toast.makeText(this@UploadActivity, getString(R.string.input_benar), Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun saveBitmapToFile(bitmap: Bitmap): File {
+        val file = File(applicationContext.filesDir, "temp_image.jpg")
+        file.createNewFile()
+        val outputStream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+        return file
+    }
+
 
 
     private fun showDatePicker() {
@@ -186,22 +245,7 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-//            val result = CropImage.getActivityResult(data)
-//            if (resultCode == RESULT_OK) {
-//                val croppedUri = result.uri
-//                val myFile = uriToFile(croppedUri, this@UploadActivity)
-//                Log.d("ActivityResult", "myFile: $myFile")
-//                getFile = myFile
-//                binding.imgPrev.setImageURI(croppedUri)
-//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-//                val error = result.error
-//                Toast.makeText(this,"eror saat memilih gambar",Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
+
 
     private fun hasilCamera(){
         // Dapatkan Uri gambar hasil crop dari Intent
@@ -213,6 +257,14 @@ class UploadActivity : AppCompatActivity() {
 
         // Tampilkan gambar hasil crop di ImageView
         binding.imgPrev.setImageURI(croppedImageUri)
+    }
+
+    private fun isLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
     }
 
 
