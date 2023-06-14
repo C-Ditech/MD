@@ -4,6 +4,8 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+
+//nih
 data class RegisterResponse(
 
     val email: Boolean,
