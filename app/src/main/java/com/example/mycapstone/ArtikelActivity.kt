@@ -8,7 +8,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import com.example.mycapstone.databinding.ActivityArtikelBinding
-import com.example.mycapstone.databinding.ActivityMainBinding
+
 
 class ArtikelActivity : AppCompatActivity() {
     private lateinit var binding: ActivityArtikelBinding

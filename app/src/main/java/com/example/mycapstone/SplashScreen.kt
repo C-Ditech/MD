@@ -4,13 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.example.mycapstone.ui.Login.LoginActivity
 import com.example.mycapstone.ui.main.MainActivity
 
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        //cek comit
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 

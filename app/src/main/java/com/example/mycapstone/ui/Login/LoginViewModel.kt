@@ -65,9 +65,6 @@ class LoginViewModel (private val pref: UserPreference) : ViewModel(){
         }
     }
 
-
-
-
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
     }

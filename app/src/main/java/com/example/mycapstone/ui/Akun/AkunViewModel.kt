@@ -4,11 +4,7 @@ import androidx.lifecycle.*
 import com.example.mycapstone.*
 import kotlinx.coroutines.launch
 
-
-
 class AkunViewModel( private val pref: UserPreference) : ViewModel() {
-
-
 
     fun getUserData(): LiveData<UserToken> {
         return pref.getUserToken().asLiveData()
@@ -20,7 +16,6 @@ class AkunViewModel( private val pref: UserPreference) : ViewModel() {
     fun getEmail(): LiveData<UserEmail> {
         return pref.getUserEmail().asLiveData()
     }
-
     fun logout() {
         viewModelScope.launch {
             pref.logout()

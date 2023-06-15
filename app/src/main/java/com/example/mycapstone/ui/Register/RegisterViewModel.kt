@@ -26,8 +26,6 @@ class RegisterViewModel (private val pref: UserPreference)   : ViewModel() {
 
     var isError: Boolean = false
 
-
-
     fun RegrisData(name: String, email:String, password:String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().uploadRegister(name, email, password)

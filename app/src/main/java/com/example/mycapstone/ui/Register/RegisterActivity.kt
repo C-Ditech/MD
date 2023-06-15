@@ -66,9 +66,9 @@ class RegisterActivity : AppCompatActivity() {
             chekEmailReady(it, registerViewModel.isError)
         }
 
-        registerViewModel.isLoading.observe(this, {
+        registerViewModel.isLoading.observe(this) {
             isLoading(it)
-        })
+        }
     }
 
 

@@ -2,20 +2,12 @@ package com.example.mycapstone.ui.upload
 
 import android.content.ContentValues
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mycapstone.UserID
-import com.example.mycapstone.UserToken
 import com.example.mycapstone.api.ApiConfig
 import com.example.mycapstone.api.HasilResponse
-import android.content.Context
-
-
-
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

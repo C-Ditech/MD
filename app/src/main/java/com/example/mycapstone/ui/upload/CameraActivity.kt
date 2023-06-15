@@ -2,8 +2,6 @@ package com.example.mycapstone.ui.upload
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +21,6 @@ import com.example.mycapstone.R
 import com.example.mycapstone.databinding.ActivityCameraBinding
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
-import java.io.FileOutputStream
 
 
 class CameraActivity : AppCompatActivity() {
@@ -105,20 +102,14 @@ class CameraActivity : AppCompatActivity() {
             val result = CropImage.getActivityResult(data)
             if (resultCode == RESULT_OK) {
                 val croppedUri = result.uri
-                // Kirim Uri hasil crop ke activity lain
                 val intent = Intent(this, UploadActivity::class.java)
                 intent.putExtra("croppedImageUri", croppedUri)
                 startActivity(intent)
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                val error = result.error
-                // Handle error
                 Toast.makeText(this, "Gagal memotong gambar.", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-
-
 
 
     private fun startCamera() {

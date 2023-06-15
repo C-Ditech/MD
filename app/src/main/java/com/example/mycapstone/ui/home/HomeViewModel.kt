@@ -10,10 +10,6 @@ import com.example.mycapstone.UserToken
 
 class HomeViewModel(private val pref: UserPreference) : ViewModel() {
 
-    fun getUserData(): LiveData<UserToken> {
-        return pref.getUserToken().asLiveData()
-    }
-
     fun getUserID(): LiveData<UserID> {
         return pref.getUserID().asLiveData()
     }

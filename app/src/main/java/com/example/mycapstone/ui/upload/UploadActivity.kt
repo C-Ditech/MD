@@ -1,17 +1,13 @@
 package com.example.mycapstone.ui.upload
 
 import android.Manifest
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -21,18 +17,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.mycapstone.R
 import com.example.mycapstone.databinding.ActivityUploadBinding
-import com.example.mycapstone.ui.Login.LoginViewModel
 import com.example.mycapstone.ui.hasil.HasilActivity
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
 
 class UploadActivity : AppCompatActivity() {
     private lateinit var binding : ActivityUploadBinding
@@ -50,9 +40,7 @@ class UploadActivity : AppCompatActivity() {
 
         hasilCamera()
 
-        binding.inputTanggal.setOnClickListener {
-            showDatePicker()
-        }
+
 
 
         binding.btnCamera.setOnClickListener {
@@ -88,18 +76,9 @@ class UploadActivity : AppCompatActivity() {
             val originalBitmap = (drawable as BitmapDrawable).bitmap
 
             val file = saveBitmapToFile(originalBitmap)
-            val reducedFile = reduceImage(file) // Set the desired maxParcelSize value
+            val reducedFile = reduceImage(file)
             intent.putExtra("img", reducedFile)
 
-            val data1 = binding.inputNama.text.toString()
-            intent.putExtra("key1", data1)
-
-
-            val data2 = binding.inputTanggal.text.toString()
-            intent.putExtra("key2", data2)
-
-            val data3 = binding.inputDeskripsi.text.toString()
-            intent.putExtra("key3", data3)
             startActivity(intent)
 
 
@@ -117,7 +96,7 @@ class UploadActivity : AppCompatActivity() {
 
 
         } else {
-            Toast.makeText(this, "Error response from the server", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Server Eror,Silahkan Coba lagi", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -150,25 +129,6 @@ class UploadActivity : AppCompatActivity() {
 
 
 
-    private fun showDatePicker() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePickerDialog = DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-                binding.inputTanggal.setText(selectedDate)
-            },
-            year,
-            month,
-            day
-        )
-
-        datePickerDialog.show()
-    }
 
     companion object {
         const val CAMERA_X_RESULT = 200
@@ -185,20 +145,17 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun startGallery() {
-        // Periksa izin akses ke penyimpanan
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Jika izin belum diberikan, minta izin kepada pengguna
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                 REQUEST_CODE_PERMISSIONS
             )
         } else {
-            // Jika izin sudah diberikan, lanjutkan untuk membuka galeri
             openGallery()
         }
     }
@@ -211,10 +168,8 @@ class UploadActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Izin diberikan, lanjutkan untuk membuka galeri
                 openGallery()
             } else {
-                // Izin ditolak, berikan tanggapan atau tindakan sesuai kebutuhan Anda
                 Toast.makeText(this, getString(R.string.deny), Toast.LENGTH_SHORT
                 ).show()
             }
@@ -248,14 +203,12 @@ class UploadActivity : AppCompatActivity() {
 
 
     private fun hasilCamera(){
-        // Dapatkan Uri gambar hasil crop dari Intent
         val croppedImageUri = intent.getParcelableExtra<Uri>("croppedImageUri")
 
         val myFile = croppedImageUri?.let { uriToFile(it, this@UploadActivity) }
         Log.d("ActivityResult", "myFile: $myFile")
         getFile = myFile
 
-        // Tampilkan gambar hasil crop di ImageView
         binding.imgPrev.setImageURI(croppedImageUri)
     }
 
@@ -266,6 +219,5 @@ class UploadActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.GONE
         }
     }
-
 
 }

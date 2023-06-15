@@ -5,8 +5,6 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -24,14 +22,13 @@ import com.example.mycapstone.databinding.ActivityMainBinding
 import com.example.mycapstone.databinding.ActivityUploadBinding
 import com.example.mycapstone.ui.Akun.AkunFragment
 import com.example.mycapstone.ui.Login.LoginActivity
-import com.example.mycapstone.ui.history.HistoryFragment
 import com.example.mycapstone.ui.home.HomeFragment
 import com.example.mycapstone.ui.upload.CameraActivity
 import com.example.mycapstone.ui.upload.UploadActivity
 import com.example.mycapstone.ui.upload.UploadActivity.Companion.CAMERA_X_RESULT
 import com.example.mycapstone.ui.upload.rotateFile
 import java.io.File
-import kotlin.math.log
+
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "Setting")
 class MainActivity : AppCompatActivity() {
@@ -80,13 +77,6 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.navigation_history -> {
-                    val fragment = HistoryFragment()
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit()
-                    true
-                }
                 R.id.navigation_akun -> {
                     val fragment = AkunFragment()
                     supportFragmentManager.beginTransaction()
@@ -94,7 +84,6 @@ class MainActivity : AppCompatActivity() {
                         .commit()
                     true
                 }
-                // Fragmen lainnya
                 else -> false
             }
         }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mycapstone</string>
+    <string name="app_name">C-Ditech</string>
     <string name="title_home">Home</string>
     <string name="title_camera">Camera</string>
     <string name="title_history">History</string>
@@ -57,7 +57,7 @@ kata sandi anda</string>
     <string name="inputName">Masukkan nama</string>
     <string name="inputTanggal">Masukkan tanggal</string>
     <string name="inputdesc">Masukkan deskripsi</string>
-    <string name="save">Simpan</string>
+    <string name="save">Selesai</string>
     <string name="uploadscs">Berhasil</string>
 
 

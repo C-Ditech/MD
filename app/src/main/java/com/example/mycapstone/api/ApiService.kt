@@ -24,4 +24,6 @@ interface ApiService {
     @POST("predict_image")
     fun cekpenyakit(@Part uploaded_file: MultipartBody.Part): Call<HasilResponse>
 
+
+
 }

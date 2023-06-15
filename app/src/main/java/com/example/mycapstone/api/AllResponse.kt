@@ -1,11 +1,5 @@
 package com.example.mycapstone.api
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
-
-
-//nih
 data class RegisterResponse(
 
     val email: Boolean,
@@ -33,7 +27,8 @@ data class HasilResponse(
 
 data class Result(
     val penyakit: String,
-    val akurasi: Double
+    val akurasi: Double,
+
 )
 
 

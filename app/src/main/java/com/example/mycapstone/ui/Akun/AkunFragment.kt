@@ -31,13 +31,10 @@ class AkunFragment : Fragment() {
         _binding = FragmentAkunBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Inisialisasi UserPreference
         userPreference = UserPreference.getInstance(requireContext().dataStore)
-
-        // Inisialisasi AkunViewModel dengan UserPreference
         viewModel = ViewModelProvider(this, ViewModelFactory(userPreference)).get(AkunViewModel::class.java)
 
-        //logoutbutton
+
         binding.logoutButton.setOnClickListener {
             showLogoutConfirmationDialog()
         }
@@ -59,7 +56,6 @@ class AkunFragment : Fragment() {
             println("ini ada email sih : $email")
             binding.textEmail.text = email
         }
-
 
         return root
     }
