@@ -91,7 +91,7 @@
             android:alpha="0"
             android:background="@drawable/textbar"
             android:drawablePadding="5dp"
-            android:hint="@string/pass"
+            android:hint="@string/confirmpass"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="textPassword"
